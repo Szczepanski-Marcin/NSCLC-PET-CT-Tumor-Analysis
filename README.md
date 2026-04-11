@@ -78,11 +78,8 @@ Max:     84629.29
 Mean:        0.41
 ```
 
-Example histogram:
-
-<p align="center">
-  <img src="outputs/figures/R01-001_histogram.png" width="500">
-</p>
+Example histogram:   
+<img src="outputs/figures/R01-001_histogram.png" width="600">
 
 ### 4. Tumor Candidate Detection
 
