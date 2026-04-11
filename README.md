@@ -4,13 +4,13 @@
 
 This project presents a computational pipeline for **lung segmentation, tumor candidate detection, and quantitative PET analysis** using the NSCLC Radiogenomics dataset.
 
-The objective is to simulate a **real-world medical imaging workflow**, focusing on:
+The objective is to simulate a real-world medical imaging workflow, focusing on:
 - automated processing of DICOM data  
 - robust segmentation under imperfect conditions  
 - extraction of clinically relevant PET-derived metrics  
 
 Due to the absence of ground-truth tumor annotations, the project is framed as:
- **Radiomics analysis of automatically detected high-intensity tumor candidate regions**
+ Radiomics analysis of automatically detected high-intensity tumor candidate regions
 
 
 ## Background
@@ -56,14 +56,42 @@ Example:
 ⚠️ lungmask failed — using fallback segmentation
 
 
-This ensures a **robust and fully automated pipeline**.
+This ensures a robust and fully automated pipeline.
 
 
-### 3. Tumor Candidate Detection
+### 🆕 3. Intensity Analysis (Exploratory Step)
+
+Before tumor detection, PET intensity distributions were analyzed to better understand the data:
+
+- Minimum, maximum, and mean intensity values were computed  
+- Histogram of voxel intensities was generated  
+
+This step allows:
+- identification of high-intensity regions  
+- understanding variability across scans  
+- data-driven selection of detection thresholds  
+
+Example output:
+```
+Min: 0.0
+Max: 84629.29
+Mean: 0.41
+```
+
+Example histogram:
+
+![Histogram](outputs/figures/R01-001_histogram.png)
+
+
+### 4. Tumor Candidate Detection
 
 - Adaptive thresholding based on PET intensity  
 - Threshold computed within lung regions  
 - Identifies **high-intensity regions as tumor candidates**
+
+The threshold is derived from:
+- lung-only voxel distribution (preferred)  
+- global intensity distribution (fallback)  
 
 Example:
 ```
@@ -71,7 +99,7 @@ Threshold: 0.39
 ```
 
 
-### 4. Radiomics-Oriented Feature Extraction
+### 5. Radiomics-Oriented Feature Extraction
 
 Radiomics-style features were extracted from detected regions:
 
@@ -84,7 +112,7 @@ Radiomics-style features were extracted from detected regions:
 Radiomics features were extracted from automatically detected high-intensity regions due to lack of ground-truth tumor annotations.
 
 
-### 5. Visualization
+### 6. Visualization
 
 The pipeline generates:
 
@@ -92,22 +120,24 @@ The pipeline generates:
 - Tumor candidate overlays (red)  
 - Intensity distribution histograms  
 
-All outputs are automatically saved:
+Visualizations serve both:
+- qualitative validation of segmentation  
+- interpretation of tumor candidate regions  
 
+All outputs are automatically saved:
 ```
 outputs/
 ├── figures/
 └── tables/
 ```
 
-
 ## Results
 
 Example output:
 ```
 | Patient | Tumor_Volume_voxels | Max_Intensity | Mean_Intensity |
-|---------|---------------------|---------------|----------------|
-| R01-001 |          0          |       0       |        0       |
+| ------- | ------------------- | ------------- | -------------- |
+| R01-001 | 1363730             | 1.0           | 0.142992       |
 ```
 
 ### Observations
@@ -127,6 +157,10 @@ These results highlight key real-world challenges:
 - lack of ground-truth tumor annotations  
 - limitations of simple threshold-based detection  
 
+Additionally:
+- intensity distributions vary significantly between scans  
+- threshold-based detection may over- or under-estimate tumor regions  
+
 Zero-valued outputs do **not indicate failure**, but reflect:
 - conservative detection strategy  
 - dataset variability  
@@ -136,8 +170,7 @@ Zero-valued outputs do **not indicate failure**, but reflect:
 ## Visualization
 
 Example segmentation output:
-
-- **Red** → high-intensity tumor candidate regions  
+ 
 
 ![Example](outputs/figures/R01-001_overlay.png)
 
@@ -148,6 +181,10 @@ Example segmentation output:
 - Tumor detection based on intensity thresholding  
 - lungmask model may fail on certain scans  
 - Limited dataset size due to hardware constraints  
+
+ Additional limitations:
+- Intensity normalization may affect absolute SUV interpretation  
+- Threshold-based detection is sensitive to noise and acquisition variability  
 
 
 ## Technical Stack
@@ -173,10 +210,14 @@ project/
 
 ## Key Contributions
 
-- Developed a **robust PET/CT analysis pipeline**  
-- Implemented **adaptive tumor candidate detection**  
-- Performed **exploratory radiomics-style feature extraction**  
-- Generated **automated visual and quantitative outputs**  
+- Developed a robust PET/CT analysis pipeline  
+- Implemented adaptive tumor candidate detection  
+- Performed exploratory radiomics-style feature extraction  
+- Generated automated visual and quantitative outputs   
+
+ Additional contributions:
+- Introduced data-driven threshold selection using intensity distributions 
+- Integrated fallback segmentation for real-world robustness
 
 
 ## Future Work
@@ -201,4 +242,4 @@ Instead, it demonstrates:
 
 - TCIA NSCLC Radiogenomics Dataset  
 - PET/CT imaging literature  
-- lungmask segmentation model  
+- lungmask segmentation model
