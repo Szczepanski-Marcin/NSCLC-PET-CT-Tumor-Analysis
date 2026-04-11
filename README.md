@@ -9,7 +9,7 @@ The objective is to simulate a real-world medical imaging workflow, focusing on:
 - robust segmentation under imperfect conditions  
 - extraction of clinically relevant PET-derived metrics  
 
-Due to the absence of ground-truth tumor annotations, the project is framed as:
+Due to the absence of ground-truth tumor annotations, the project is framed as:  
  Radiomics analysis of automatically detected high-intensity tumor candidate regions
 
 
