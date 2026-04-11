@@ -170,10 +170,10 @@ Zero-valued outputs do **not indicate failure**, but reflect:
 
 Example segmentation output:
  
-
-![Example](outputs/figures/R01-001_overlay.png)   
-<img src="outputs/figures/R01-001_area.png" width="200">
-
+<p align="center">
+  <img src="outputs/figures/R01-001_overlay.png" width="400">
+  <img src="outputs/figures/R01-001_area.png" width="400">
+</p>
 
 ## Limitations
 
