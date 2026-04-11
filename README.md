@@ -171,7 +171,8 @@ Zero-valued outputs do **not indicate failure**, but reflect:
 Example segmentation output:
  
 
-![Example](outputs/figures/R01-001_overlay.png)
+![Example](outputs/figures/R01-001_overlay.png)   
+![Example](outputs/figures/R01-001_area.png)
 
 
 ## Limitations
