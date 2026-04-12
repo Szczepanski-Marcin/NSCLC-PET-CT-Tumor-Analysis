@@ -18,6 +18,7 @@ Radiomics analysis of automatically detected high-intensity tumor candidate regi
 ## Pipeline Overview
 
 The figure below summarizes the full computational workflow:
+
 ![Example](outputs/figures/diagram.png) 
 
 ## Background
