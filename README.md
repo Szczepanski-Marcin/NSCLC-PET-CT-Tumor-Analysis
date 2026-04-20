@@ -1,4 +1,4 @@
-# PET/CT High-Intensity Region Analysis Pipeline (NSCLC)
+# PET/CT Image Analysis Pipeline for NSCLC Dataset
 
 ## Project Overview
 
