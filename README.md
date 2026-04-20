@@ -1,19 +1,18 @@
-# PET/CT Tumor Segmentation and Quantitative Analysis for NSCLC
+# PET/CT High-Intensity Region Analysis Pipeline (NSCLC)
 
 ## Project Overview
 
-This project presents a computational pipeline for **lung segmentation, tumor candidate detection, and quantitative PET analysis** using the NSCLC Radiogenomics dataset.
+This project implements an end-to-end **PET/CT image processing pipeline** in Python for large-scale analysis of the NSCLC Radiogenomics dataset.
 
-The workflow simulates a real-world medical imaging pipeline, focusing on:
+The workflow focuses on **exploratory PET intensity-based analysis and lung region processing**, including:
 
 - automated processing of DICOM data  
-- robust lung segmentation under imperfect conditions  
-- intensity-driven tumor candidate detection  
-- extraction of clinically relevant PET-derived metrics  
+- robust lung segmentation under real-world conditions  
+- detection of high-intensity regions in PET images  
+- extraction of PET intensity-based quantitative metrics  
+- visualization and exploratory imaging analysis  
 
-Due to the absence of ground-truth tumor annotations, the project is framed as:
-
-Radiomics analysis of automatically detected high-intensity tumor candidate regions.
+⚠️ This project is an exploratory imaging analysis pipeline and does not perform clinical tumor segmentation or diagnosis.
 
 ## Pipeline Overview
 
@@ -26,58 +25,46 @@ The figure below summarizes the full computational workflow:
 Lung cancer is one of the leading causes of cancer-related mortality worldwide, with **Non-Small Cell Lung Cancer (NSCLC)** accounting for approximately 85–90% of cases.
 
 PET/CT imaging plays a key role in:
-- tumor detection  
-- staging  
-- treatment planning  
+- anatomical and functional assessmentn  
+- disease staging  
+- treatment planning support  
 
-Quantitative PET-derived measures such as:
-- SUVmax
-- SUVmean
-- tumor volume
-
-are widely used in clinical workflows.
-
-Recent research shows that imaging-derived features can support **non-invasive tumor characterization**, particularly in radiomics-based pipelines.
+Quantitative PET intensity patterns are commonly analyzed in:
+- radiomics research  
+- exploratory imaging studie  
 
 
 ## Methodology
 
 ### 1. Data Handling
 - Recursive loading of DICOM files  
-- Automatic identification of scan folders  
-- Slice normalization  
+- Automatic  scan grouping
+- Slice ordering and normalization  
 
 
-### 2. Lung Segmentation
-
-Two approaches were implemented:
+### 2. Lung Segmentation  
+Two-stage approach for robustness:
 
 #### Deep Learning (lungmask)
 - Pre-trained U-Net model  
 - Slice-wise inference  
 
 #### Fallback Method
-- Threshold-based segmentation  
-- Automatically triggered if model fails  
-
-Example:
-⚠️ lungmask failed — using fallback segmentation
+- Rule-based threshold segmentation
+- Automatically used when model inference fails
 
 
-This ensures a robust and fully automated pipeline.
+### 3. PET Intensity Analysis
 
+Before region detection, PET intensity distributions are analyzed:  
+- Minimum, maximum, and mean intensity values  
+- Histogram-based visualization of voxel distributions  
+- Scan-level variability assessment 
 
-### 3. Intensity Analysis
-
-Before tumor detection, PET intensity distributions were analyzed to better understand the data:
-
-- Minimum, maximum, and mean intensity values were computed  
-- Histogram of voxel intensities was generated  
-
-This step allows:
-- identification of high-intensity regions  
-- understanding variability across scans  
-- data-driven selection of detection thresholds  
+This enables:
+- identification of high-intensity regions
+- understanding inter-scan variability
+- data-driven threshold selection  
 
 Example output:
 ```
@@ -89,14 +76,13 @@ Mean:        0.41
 Example histogram:   
 <img src="outputs/figures/R01-001_histogram.png" width="600">
 
-### 4. Tumor Candidate Detection
-
-- Adaptive thresholding based on PET intensity  
-- Threshold computed within lung regions  
-- Identifies **high-intensity regions as tumor candidates**
+### 4. High-Intensity Region Detection  
+- Adaptive thresholding based on PET intensity distribution  
+- Threshold computed within lung regions (preferred approach)  
+- Identification of candidate high-intensity regions  
 
 The threshold is derived from:
-- lung-only voxel distribution (preferred)  
+- lung-only voxel distribution (primary)  
 - global intensity distribution (fallback)  
 
 
@@ -106,17 +92,14 @@ Threshold:      0.39
 ```
 
 
-### 5. Radiomics-Oriented Feature Extraction
+### 5. Quantitative Feature Extraction
 
-Radiomics-style features were extracted from detected regions:
+From detected regions, PET intensity-based features are extracted:  
+- Region volume (voxel-based)
+- Maximum intensity (PET intensity metric)
+- Mean intensity (PET intensity metric)
 
-- Tumor candidate volume (voxel-based)  
-- Maximum intensity (SUVmax proxy)  
-- Mean intensity (SUVmean proxy)  
-
- **Important methodological note:**
-
-Radiomics features were extracted from automatically detected high-intensity regions due to lack of ground-truth tumor annotations.
+These features support **exploratory radiomics-style analysis**, not clinical validation. 
 
 
 ### 6. Visualization
@@ -124,12 +107,9 @@ Radiomics features were extracted from automatically detected high-intensity reg
 The pipeline generates:
 
 - Multi-slice PET visualizations  
-- Tumor candidate overlays (red)  
+- Lung segmentation overlays  
+- High-intensity region overlays  
 - Intensity distribution histograms  
-
-Visualizations serve both:
-- qualitative validation of segmentation  
-- interpretation of tumor candidate regions  
 
 All outputs are automatically saved:
 ```
@@ -144,34 +124,32 @@ Example output:
 ```
 | Patient | Tumor_Volume_voxels | Max_Intensity | Mean_Intensity |
 | ------- | ------------------- | ------------- | -------------- |
-| R01-001 |       1363730       |      1.0      |    0.142992    |
+| R01-001 |      1,363,730      |      1.0      |    0.142992    |
 ```
 
 ### Observations
 
-- Lung segmentation was robust due to fallback strategy  
-- Tumor candidate detection is highly sensitive to threshold selection  
-- Some scans produced:
-  - no detected high-intensity regions  
-  - zero-valued metrics  
+- Lung segmentation was robust due to fallback strategy
+- High-intensity region detection is sensitive to threshold selection
+- Significant variability exists across PET intensity distributions  
+- Some scans may not contain detectable high-intensity regions under chosen thresholds
 
 
 ### Interpretation
 
-These results highlight key real-world challenges:
+These results highlight key real-world challenges in PET imaging:  
+- variability in PET intensity distributions across scans
+- absence of ground-truth annotations
+- limitations of threshold-based exploratory detection
 
-- variability in PET intensity across scans  
-- lack of ground-truth tumor annotations  
-- limitations of simple threshold-based detection  
+Additionally:  
+- intensity distributions differ significantly between scans
+- threshold-based methods may under- or over-estimate regions of interest
 
-Additionally:
-- intensity distributions vary significantly between scans  
-- threshold-based detection may over- or under-estimate tumor regions  
-
-Zero-valued outputs do **not indicate failure**, but reflect:
-- conservative detection strategy  
-- dataset variability  
-- absence of clear high-SUV regions in selected scans  
+Zero-detection cases reflect:  
+- conservative thresholding strategy
+- dataset variability
+- absence of strong high-intensity regions in some scans
 
 
 ## Visualization
@@ -182,17 +160,12 @@ Example segmentation output:
 <img src="outputs/figures/R01-001_area.png" width="350">
 
 
-## Limitations
-
-- No ground-truth tumor labels available  
-- Tumor detection based on intensity thresholding  
-- lungmask model may fail on certain scans  
-- Limited dataset size due to hardware constraints  
-
- Additional limitations:
-- Intensity normalization may affect absolute SUV interpretation  
-- Threshold-based detection is sensitive to noise and acquisition variability  
-
+## Limitations  
+- No ground-truth annotations available  
+- Region detection is intensity-based (not supervised)  
+- lungmask performance varies across scans  
+- PET intensity not fully standardized to clinical SUV (dataset-dependent constraints)  
+- Sensitivity to acquisition variability and noise
 
 ## Technical Stack
 
@@ -215,38 +188,36 @@ project/
 ```
 
 
-## Key Contributions
-
-- Developed a robust PET/CT analysis pipeline  
-- Implemented adaptive tumor candidate detection  
-- Performed exploratory radiomics-style feature extraction  
-- Generated automated visual and quantitative outputs   
-
- Additional contributions:
-- Introduced data-driven threshold selection using intensity distributions 
-- Integrated fallback segmentation for real-world robustness
+## Key Contributions  
+- Built end-to-end PET/CT DICOM processing pipeline  
+- Implemented robust lung segmentation with fallback mechanism  
+- Developed adaptive intensity-based region detection  
+- Designed automated quantitative and visual analysis workflow  
+- Enabled reproducible exploratory analysis of large-scale imaging data
 
 
-## Future Work
-
-- Integration of true radiomics (PyRadiomics)  
-- Improved tumor segmentation methods  
-- PET + CT multi-modal analysis  
-- Machine learning-based classification  
-
-
-## Important Note
-
-This project does **not** perform clinical tumor segmentation.
-
-Instead, it demonstrates:
-- exploratory radiomics analysis  
-- adaptive detection of high-intensity regions  
-- robust handling of real-world medical imaging data  
+## Future Work  
+- Integration of PyRadiomics for extended feature extraction  
+- Improved segmentation methods for PET/CT specificity  
+- Multi-modal PET/CT fusion analysis  
+- Machine learning-based classification of intensity patterns
 
 
-## References
+## Important Note  
+This project performs **exploratory PET/CT intensity-based analysis**.
 
+It does not:  
+- perform clinical tumor segmentation  
+- provide diagnostic outputs  
+- validate lesions against ground truth  
+
+Instead, it demonstrates:  
+- robust medical image processing pipelines  
+- intensity-based region analysis  
+- scalable DICOM handling and automation 
+
+
+## References  
 - TCIA NSCLC Radiogenomics Dataset  
 - PET/CT imaging literature  
 - lungmask segmentation model
