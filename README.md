@@ -94,7 +94,7 @@ From detected regions, the following metrics are extracted:
 - Mean PET intensity  
 - Relative tumor burden (voxel ratio)  
 
-These features support **exploratory radiomics-style analysis**.. 
+These features support **exploratory radiomics-style analysis**. 
 
 
 ### 7. Visualization
