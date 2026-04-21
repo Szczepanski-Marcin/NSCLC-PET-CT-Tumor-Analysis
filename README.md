@@ -4,6 +4,8 @@
 
 This project implements an end-to-end **PET/CT image processing pipeline** in Python for exploratory analysis of the NSCLC Radiogenomics dataset.
 
+The pipeline produces multi-panel visualization outputs combining CT, lung segmentation, and PET heatmaps for qualitative analysis (see Visualization section).
+
 The pipeline integrates **anatomical (CT)** and **functional (PET)** imaging to enable:  
 - automated processing of DICOM data  
 - CT normalization to Hounsfield Units (HU) 
@@ -97,12 +99,18 @@ These features support **exploratory radiomics-style analysis**..
 
 ### 7. Visualization
 
-The pipeline generates multi-panel visual outputs:
+The pipeline generates multi-panel visual outputs combining anatomical and functional information:
 
 - CT slice (anatomical reference)  
-- Lung-isolated view  
-- Normalized PET image  
-- Tumor heatmap overlay (blue–red contrast)  
+- Lung segmentation (isolated lung region)  
+- Enhanced lung visualization (contrast-adjusted)  
+- PET-based heatmap of high-uptake regions  
+
+These views are combined into a single subplot to support interpretation.
+
+### Example Output
+
+![Pipeline Visualization](outputs/figures/R01-018_slice_XXX.png)
 
 Example outputs:
 
