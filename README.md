@@ -127,7 +127,17 @@ outputs/
 
 ## Results
 
-Example output:
+### Example PET/CT Uptake Detection
+
+The figure below presents a combined CT and PET visualization with detected high-uptake regions.
+
+- CT provides anatomical context  
+- PET highlights functional activity  
+- High-uptake regions are overlaid in blue for contrast  
+
+![Tumor Overlay](outputs/figures/R01-018_slice_333_combined.png)
+
+### Example output:
 ```
 | Patient | Tumor_Volume | Max_Intensity | Mean_Intensity |
 | ------- | ------------ | ------------- | -------------- |
@@ -144,8 +154,10 @@ Example output:
 
 ### Interpretation
 
-These results highlight common challenges in real-world medical imaging:
+The overlay demonstrates how regions of elevated PET signal are localized within lung structures.  
+These regions represent **candidate areas of increased metabolic activity**, which may correspond to tumor-like patterns but are not clinically validated.
 
+These results highlight common challenges in real-world medical imaging:
 - variability in PET signal intensity  
 - lack of standardized scaling across datasets  
 - absence of ground-truth annotations  
