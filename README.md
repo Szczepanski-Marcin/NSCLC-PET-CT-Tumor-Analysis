@@ -20,7 +20,7 @@ The pipeline integrates **anatomical (CT)** and **functional (PET)** imaging to 
 
 The figure below summarizes the full computational workflow:
 
-![Example](outputs/figures/diagram.png) 
+**DICOM → Preprocessing → Lung Segmentation → PET Analysis → Uptake Detection → Feature Extraction → Visualization**
 
 ## Background
 
