@@ -20,7 +20,7 @@ The pipeline integrates **anatomical (CT)** and **functional (PET)** imaging to 
 
 The figure below summarizes the full computational workflow:
 
-![Example](outputs/figures/diagram.png) 
+**DICOM → Preprocessing → Lung Segmentation → PET Analysis → Uptake Detection → Feature Extraction → Visualization**
 
 ## Background
 
@@ -92,33 +92,27 @@ From detected regions, the following metrics are extracted:
 - Region volume (voxel count)  
 - Maximum PET intensity  
 - Mean PET intensity  
-- Relative tumor burden (voxel ratio)  
+- Relative high-uptake region burden (voxel ratio)  
 
-These features support **exploratory radiomics-style analysis**.. 
+These features support **exploratory radiomics-style analysis**. 
 
 
 ### 7. Visualization
 
-The pipeline generates multi-panel visual outputs combining anatomical and functional information:
+The pipeline generates multi-panel visual outputs to illustrate key processing stages:
 
 - CT slice (anatomical reference)  
 - Lung segmentation (isolated lung region)  
 - Enhanced lung visualization (contrast-adjusted)  
-- PET-based heatmap of high-uptake regions  
+- PET intensity heatmap within lung regions  
 
-These views are combined into a single subplot to support interpretation.
+These components are combined into a single subplot to provide an overview of intermediate processing steps and data transformation.
 
-### Example Output
+### Example Pipeline Visualization  
+Example segmentation output:  
+![Example](outputs/figures/R01-018_slice_289_pipeline.png) 
 
-![Pipeline Visualization](outputs/figures/R01-018_slice_XXX.png)
-
-Example outputs:
-
-- Lung segmentation visualization  
-- PET intensity heatmaps  
-- Combined PET/CT overlays  
-
-All results are automatically saved:
+All generated outputs are automatically saved:
 ```
 outputs/
 ├── figures/
@@ -127,11 +121,21 @@ outputs/
 
 ## Results
 
-Example output:
+### Example PET/CT Uptake Detection
+
+The figure below presents the final output of the pipeline, combining anatomical (CT) and functional (PET) information.
+
+- CT provides structural context  
+- PET highlights metabolic activity  
+- High-uptake regions are overlaid in blue for visual clarity  
+
+![Tumor Overlay](outputs/figures/R01-018_slice_333_combined.png)
+
+### Example output:
 ```
-| Patient | Tumor_Volume | Max_Intensity | Mean_Intensity |
-| ------- | ------------ | ------------- | -------------- |
-| R01-018 |   353,407    |     522.07    |      84.21     |
+| Patient | Uptake_Volume | Uptake_Ratio | Max_Intensity | Mean_Intensity |
+| ------- | ------------ | ----------- | ------------- | -------------- |
+| R01-018 |   353,407    |   0.00161   |     522.07    |     84.21      |
 ```
 
 ### Observations
@@ -144,23 +148,30 @@ Example output:
 
 ### Interpretation
 
+
+The visualization demonstrates how regions of elevated PET signal are localized within anatomically segmented lung structures.
+
+High-uptake regions are identified using adaptive thresholding applied to PET intensity values within the lung mask. These regions are visualized as color overlays (heatmaps), enabling direct comparison between functional activity (PET) and anatomical context (CT).
+
+The detected regions represent **candidate areas of increased metabolic activity**, which may correspond to tumor-like patterns but are not clinically validated.
+
+The extracted quantitative metrics (voxel-based volume, maximum intensity, and mean intensity) provide a **relative characterization of uptake patterns**, rather than absolute clinical measurements.
+
 These results highlight common challenges in real-world medical imaging:
 
-- variability in PET signal intensity  
-- lack of standardized scaling across datasets  
+- variability in PET signal intensity across scans  
+- lack of standardized intensity scaling (non-calibrated SUV)  
 - absence of ground-truth annotations  
-- limitations of threshold-based detection  
+- sensitivity of threshold-based detection methods  
 
-Detected regions should be interpreted as:
+Therefore, detected regions should be interpreted as:
 
- **candidate high-uptake areas**, not confirmed tumoros
+> **candidate high-uptake areas, not confirmed tumors**
 
+Overall, the pipeline demonstrates how combined PET/CT analysis can support exploratory investigation of metabolic activity patterns in lung imaging data.
 
-## Visualization
-
-Example segmentation output:
  
-![Example](outputs/figures/R01-018_overlay.png)   
+  
 
 
 ## Limitations  
