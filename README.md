@@ -2,8 +2,6 @@
 
 ## Project Overview
 
-Dataset, used in th eproject comes from:  
-**https://www.cancerimagingarchive.net/analysis-result/nsclc-radiogenomics-stanford**
 
 This project implements an end-to-end **PET/CT image processing pipeline** in Python for exploratory analysis of the NSCLC Radiogenomics dataset.
 
@@ -17,7 +15,10 @@ The pipeline integrates **anatomical (CT)** and **functional (PET)** imaging to 
 - extraction of quantitative intensity-based metrics  
 - generation of visualization overlays for interpretation   
 
-⚠️ This project is designed for **exploratory imaging analysis** and does not perform clinical tumor segmentation or diagnosis.
+⚠️ This project is designed for **exploratory imaging analysis** and does not perform clinical tumor segmentation or diagnosis.  
+
+Dataset, used in th eproject comes from:  
+**https://www.cancerimagingarchive.net/analysis-result/nsclc-radiogenomics-stanford**  
 
 ## Pipeline Overview
 
