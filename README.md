@@ -2,6 +2,9 @@
 
 ## Project Overview
 
+Dataset, used in th eproject comes from:  
+**https://www.cancerimagingarchive.net/analysis-result/nsclc-radiogenomics-stanford**
+
 This project implements an end-to-end **PET/CT image processing pipeline** in Python for exploratory analysis of the NSCLC Radiogenomics dataset.
 
 The pipeline produces multi-panel visualization outputs combining CT, lung segmentation, and PET heatmaps for qualitative analysis (see Visualization section).
