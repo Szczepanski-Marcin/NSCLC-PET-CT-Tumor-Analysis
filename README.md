@@ -17,7 +17,7 @@ The pipeline integrates **anatomical (CT)** and **functional (PET)** imaging to 
 
 ⚠️ This project is designed for **exploratory imaging analysis** and does not perform clinical tumor segmentation or diagnosis.  
 
-Dataset, used in the project comes from:  
+Dataset used in the project comes from:  
 **https://www.cancerimagingarchive.net/analysis-result/nsclc-radiogenomics-stanford**  
 
 ## Pipeline Overview
