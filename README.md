@@ -17,6 +17,8 @@ The pipeline integrates **anatomical (CT)** and **functional (PET)** imaging to 
 
 ⚠️ This project is designed for **exploratory imaging analysis** and does not perform clinical tumor segmentation or diagnosis.  
 
+## Dataset
+
 This project uses the **NSCLC Radiogenomics dataset (Stanford collection) provided by The Cancer Imaging Archive (TCIA)**:  
 
 The dataset contains multimodal PET/CT scans from patients diagnosed with Non-Small Cell Lung Cancer (NSCLC), which accounts for approximately 85–90% of all lung cancer cases.  
@@ -27,7 +29,7 @@ CT volumes (anatomical imaging)
 PET volumes (metabolic imaging using FDG tracer)  
 DICOM-formatted medical imaging data  
 Multiple slices per patient with varying acquisition parameters  
-Dataset used in the project:  
+
 **https://www.cancerimagingarchive.net/analysis-result/nsclc-radiogenomics-stanford**  
 
 ## Pipeline Overview
